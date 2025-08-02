@@ -31,7 +31,7 @@ jobs:
           --comment "Deploy React Docker App" \
           --instance-ids i-08a4e883fca3d5631 \
           --parameters 'commands=[
-            "aws s3 cp s3://test-webvio.bkk/react-docker-app.zip /home/ubuntu/react-docker-app.zip",
+            "AWS_S3_ADDRESSING_STYLE=path aws s3 cp s3://test-webvio.bkk/react-docker-app.zip /home/ubuntu/react-docker-app.zip",
             "cd /home/ubuntu",
             "unzip -o react-docker-app.zip",
             "chmod +x deploy.sh",
