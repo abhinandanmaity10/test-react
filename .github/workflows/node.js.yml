@@ -1,0 +1,41 @@
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v3
+      with:
+        aws-access-key-id: AKIATJHQDX6R7Y3MKYHZ
+        aws-secret-access-key: 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
+        aws-region: ap-south-1
+
+    - name: Zip app
+      run: zip -r react-docker-app.zip . -x "*.git*" "*.github*"
+
+    - name: Upload to S3
+      run: aws s3 cp react-docker-app.zip s3:/test-webvio-buk/react-docker-app.zip
+
+    - name: Deploy via SSM
+      run: |
+        aws ssm send-command \
+          --document-name "AWS-RunShellScript" \
+          --comment "Deploy React Docker App" \
+          --instance-ids i-08a4e883fca3d5631 \
+          --parameters 'commands=[
+            "aws s3 cp s3://test-webvio-buk/react-docker-app.zip /home/ec2-user/react-docker-app.zip",
+            "cd /home/ec2-user",
+            "unzip -o react-docker-app.zip",
+            "chmod +x deploy.sh",
+            "./deploy.sh"
+          ]' \
+          --timeout-seconds 900 \
+          --output text
