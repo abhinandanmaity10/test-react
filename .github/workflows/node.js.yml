@@ -21,8 +21,8 @@ jobs:
     - name: Zip app
       run: zip -r react-docker-app.zip . -x "*.git*" "*.github*"
 
-    - name: Upload to S3
-      run: aws s3 cp react-docker-app.zip s3://test-webvio-buk/react-docker-app.zip --acl bucket-owner-full-control
+    - name: Upload to S3 (public read)
+      run: aws s3 cp react-docker-app.zip s3://test-webvio-buk/react-docker-app.zip --acl public-read
 
     - name: Deploy via SSM
       run: |
