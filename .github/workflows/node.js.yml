@@ -34,8 +34,8 @@ jobs:
            "cd /var/www",
             "curl -o /var/www/react-docker-app.zip https://s3.ap-south-1.amazonaws.com/test-webvio.bkk/react-docker-app.zip",
             "unzip -o react-docker-app.zip",
-            "sudo chmod +x deploy.sh",
-            "sudo ./deploy.sh"
+            "chmod +x deploy.sh",
+            "./deploy.sh"
           ]' \
           --timeout-seconds 900 \
           --output text
