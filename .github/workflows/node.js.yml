@@ -22,7 +22,7 @@ jobs:
       run: zip -r react-docker-app.zip . -x "*.git*" "*.github*"
 
     - name: Upload to S3 (public read)
-      run: aws s3 cp react-docker-app.zip s3://test-webvio-buk/react-docker-app.zip --acl public-read
+      run: aws s3 cp react-docker-app.zip s3://test-webvio.bkk/react-docker-app.zip --acl public-read
 
     - name: Deploy via SSM
       run: |
@@ -31,7 +31,7 @@ jobs:
           --comment "Deploy React Docker App" \
           --instance-ids i-08a4e883fca3d5631 \
           --parameters 'commands=[
-            "aws s3 cp s3://test-webvio-buk/react-docker-app.zip /home/ubuntu/react-docker-app.zip",
+            "aws s3 cp s3://test-webvio.bkk/react-docker-app.zip /home/ubuntu/react-docker-app.zip",
             "cd /home/ubuntu",
             "unzip -o react-docker-app.zip",
             "chmod +x deploy.sh",
